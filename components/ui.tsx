@@ -201,7 +201,7 @@ export function Callout({
     ok: "text-ok",
   };
   return (
-    <div className={`border-l-2 ${bar[tone]} bg-white/[0.015] py-2 pr-2 pl-3.5`}>
+    <div className={`border-l-2 ${bar[tone]} bg-white/1.5 py-2 pr-2 pl-3.5`}>
       {label ? (
         <p className={`font-pixel text-[7px] tracking-[0.24em] ${ink[tone]}`}>
           {label}

@@ -67,7 +67,7 @@ export default function Stage1({ onSolved }: { onSolved: () => void }) {
               </li>
             ))}
           </ol>
-          <p className="mt-4 border-t border-blue-faint/60 pt-3.5 break-words font-term text-base leading-relaxed text-blue-dim">
+          <p className="mt-4 border-t border-blue-faint/60 pt-3.5 wrap-break-word font-term text-base leading-relaxed text-blue-dim">
             {LETTER_VALUES}
           </p>
         </Card>
