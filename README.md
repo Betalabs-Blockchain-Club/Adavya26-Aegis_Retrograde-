@@ -4,6 +4,8 @@ A level-wise, gamified retro CRT-terminal puzzle site built with **Next.js 16 (A
 
 Clear three security stages on HYDRA's launch console; each stage takes an input and only advances on the correct answer:
 
+> Spoilers below — the site itself never shows these; it only accepts them.
+
 | Stage | Puzzle | Answer |
 | --- | --- | --- |
 | 1 — The Zola Cipher | HASH-4 of the Infinity Stone tied to HYDRA (**Space**, via the Tesseract) | `220` |
@@ -39,11 +41,13 @@ echo -n "2205706" | sha256sum   # the -n matters: no trailing newline
 
 ## What's in the box
 
-- Retro CRT theme: scanlines, phosphor glow, flicker, glitch-shake on wrong answers, pixel font (Press Start 2P) + terminal font (VT323).
-- Stage HUD with L1/L2/L3 progress pips and localStorage save (progress survives refresh).
-- Stage 1 & 2 include a **HASH-4 Field Lab** that live-computes any non-classified word (the six stones + Vormir are blocked, since that math *is* the puzzle).
+- Retro CRT theme: subtle scanlines, faint background grid, phosphor glow on key values only, glitch-shake on wrong answers, pixel font (Press Start 2P) + terminal font (VT323).
+- One card style throughout (thin border, quiet header strip, generous padding) so each screen reads as a few clean blocks instead of nested boxes.
+- Compact HUD with a segmented 0/3 stage bar, plus localStorage save (progress survives refresh).
+- Stage 1 & 2 present the dossier text and the HASH-4 rules only — **no value generator**: the letter math is the puzzle, done on paper.
 - Stage 3 has a built-in **SHA-256 mining console**: enter a nonce, COMPUTE the hash, then LOAD it into the Final Launch Key box and AUTHORIZE STRIKE. The key is validated against the target hash (case-insensitive).
-- Each stage has a collapsible "CLASSIFIED INTEL" panel with hints and the full method.
+- The terminal **never prints a solution**: the CLASSIFIED INTEL panels carry context, hints and worked examples on *unrelated* words/numbers (NOVA, 111+222) so nothing on the page reveals key1, the salt, the domain, or the winning nonce.
+- Victory screen: "★ MISSILE RETARGETED ★" + "MISSION CLEARED" with coloured paper confetti raining down the viewport.
 - All crypto is client-side in `lib/puzzle.ts` — a tiny dependency-free synchronous SHA-256 (FIPS 180-4), UTF-8 → hex.
 
 ## Run it

@@ -32,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${pressStart.variable} ${vt323.variable}`}>
       <body className="min-h-screen antialiased">
+        <div className="crt-grid" aria-hidden="true" />
         {children}
         <div className="crt-overlay" aria-hidden="true" />
         <div className="crt-flicker" aria-hidden="true" />

@@ -62,50 +62,53 @@ export default function GameConsole() {
   const reset = useCallback(() => goto("briefing"), [goto]);
 
   const level = PHASE_ORDER.indexOf(phase); // 0..4
+  const stagesCleared = level >= 4 ? 3 : Math.max(level - 1, 0);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       {/* ---------- HUD ---------- */}
-      <header className="border-2 border-phos-dim/50 bg-black/50 px-3 py-2.5">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="font-pixel text-[9px] tracking-widest text-phos glow">
-            AEGIS // RETROGRADE
+      <header className="border border-phos-faint bg-black/45 px-4 py-3.5 sm:px-5">
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+          <p className="flex items-center gap-2.5 font-pixel text-[9px] tracking-[0.22em] text-phos glow">
+            <span className="inline-block h-2 w-2 bg-phos blink" />
+            AEGIS<span className="text-phos-dim">//</span>RETROGRADE
           </p>
-          <div className="flex items-center gap-2" aria-label="mission progress">
-            {(["stage1", "stage2", "stage3"] as const).map((s, i) => {
-              const cleared = level > PHASE_ORDER.indexOf(s);
-              const active = phase === s;
-              return (
-                <span
-                  key={s}
-                  title={`STAGE ${i + 1}`}
-                  className={`inline-flex items-center gap-1 font-pixel text-[7px] ${
-                    cleared
-                      ? "text-phos glow"
-                      : active
-                        ? "text-amber-crt glow-amber"
-                        : "text-phos-dim/50"
-                  }`}
-                >
-                  <span className="inline-block h-2 w-2 border border-current">
-                    {cleared ? (
-                      <span className="block h-full w-full bg-current" />
-                    ) : null}
-                  </span>
-                  L{i + 1}
-                </span>
-              );
-            })}
-          </div>
+          <p className="font-term text-lg text-phos-dim">
+            {phase === "briefing"
+              ? "AWAITING OPERATIVE CHECK-IN"
+              : phase === "victory"
+                ? "MISSION COMPLETE — STRIKE AUTHORIZED"
+                : `ACTIVE SECTOR: STAGE ${level} OF 3`}
+            <span className="blink">▌</span>
+          </p>
         </div>
-        <p className="mt-1.5 font-term text-base leading-none text-phos-dim">
-          {phase === "briefing"
-            ? "> AWAITING OPERATIVE CHECK-IN..."
-            : phase === "victory"
-              ? "> MISSION COMPLETE. STRIKE AUTHORIZED."
-              : `> ACTIVE SECTOR: STAGE ${level} OF 3`}
-          <span className="blink">▌</span>
-        </p>
+
+        <div className="mt-3.5 flex items-center gap-3">
+          <div
+            className="flex flex-1 gap-1"
+            role="progressbar"
+            aria-label="mission progress"
+            aria-valuenow={stagesCleared}
+            aria-valuemin={0}
+            aria-valuemax={3}
+          >
+            {[1, 2, 3].map((s) => (
+              <span
+                key={s}
+                className={`h-1 flex-1 ${
+                  level > PHASE_ORDER.indexOf(`stage${s}` as Phase)
+                    ? "bg-phos shadow-[0_0_8px_rgba(78,247,155,0.5)]"
+                    : phase === `stage${s}`
+                      ? "bg-amber-crt/70"
+                      : "bg-phos-faint"
+                }`}
+              />
+            ))}
+          </div>
+          <p className="font-pixel text-[7px] tracking-[0.2em] text-phos-dim">
+            {stagesCleared}/3
+          </p>
+        </div>
       </header>
 
       {/* ---------- Screens ---------- */}
@@ -118,10 +121,7 @@ export default function GameConsole() {
         <Stage3 onSolved={() => goto("victory")} />
       )}
       {booted && phase === "victory" && (
-        <Victory
-          onRestart={reset}
-          onReplay={() => goto("stage3")}
-        />
+        <Victory onRestart={reset} onReplay={() => goto("stage3")} />
       )}
     </div>
   );

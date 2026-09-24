@@ -4,28 +4,42 @@
   --font-pixel: var(--font-press-start), "Courier New", monospace;
   --font-term: var(--font-vt323), "Courier New", monospace;
 
-  --color-screen: #04070a;
-  --color-phos: #3dff88;
-  --color-phos-dim: #1d9e57;
+  --color-screen: #05080b;
+  --color-phos: #4ef79b;
+  --color-phos-dim: #2f9e64;
+  --color-phos-faint: #14543a;
   --color-amber-crt: #ffb000;
-  --color-danger: #ff4747;
+  --color-danger: #ff5b5b;
 }
 
 html {
-  scrollbar-color: #1d9e57 #04070a;
+  scrollbar-color: #14543a #05080b;
 }
 
 body {
   min-height: 100vh;
   color: var(--color-phos);
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(29, 158, 87, 0.1) 0%, rgba(4, 7, 10, 0) 60%),
-    radial-gradient(ellipse at center, #07130c 0%, #04070a 65%, #000000 100%);
+    radial-gradient(90% 60% at 50% -10%, rgba(78, 247, 155, 0.07) 0%, rgba(5, 8, 11, 0) 65%),
+    radial-gradient(ellipse at 50% 0%, #08150e 0%, #05080b 62%, #000000 100%);
   background-attachment: fixed;
 }
 
 ::selection {
-  background: rgba(61, 255, 136, 0.3);
+  background: rgba(78, 247, 155, 0.25);
+}
+
+/* ---------- fixed background texture ---------- */
+.crt-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(78, 247, 155, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(78, 247, 155, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(130% 90% at 50% 0%, #000 0%, transparent 80%);
 }
 
 /* ---------- CRT overlays ---------- */
@@ -38,8 +52,8 @@ body {
     to bottom,
     rgba(0, 0, 0, 0) 0px,
     rgba(0, 0, 0, 0) 2px,
-    rgba(0, 0, 0, 0.18) 3px,
-    rgba(0, 0, 0, 0.18) 4px
+    rgba(0, 0, 0, 0.14) 3px,
+    rgba(0, 0, 0, 0.14) 4px
   );
 }
 
@@ -48,56 +62,70 @@ body {
   inset: 0;
   z-index: 61;
   pointer-events: none;
-  background: rgba(61, 255, 136, 0.03);
-  animation: crt-flicker 3.6s infinite steps(1);
+  background: rgba(78, 247, 155, 0.02);
+  animation: crt-flicker 7s infinite steps(1);
 }
 
 @keyframes crt-flicker {
   0%,
   100% {
-    opacity: 0.4;
+    opacity: 0.35;
   }
-  7% {
-    opacity: 1;
+  11% {
+    opacity: 0.6;
   }
-  8% {
+  12% {
     opacity: 0.2;
   }
-  9% {
-    opacity: 0.9;
+  13% {
+    opacity: 0.55;
   }
-  41% {
-    opacity: 0.5;
-  }
-  42% {
-    opacity: 1;
-  }
-  43% {
-    opacity: 0.45;
-  }
-  78% {
-    opacity: 0.7;
-  }
-  79% {
+  54% {
     opacity: 0.3;
+  }
+  55% {
+    opacity: 0.6;
+  }
+  56% {
+    opacity: 0.25;
+  }
+  82% {
+    opacity: 0.45;
   }
 }
 
-/* ---------- glow text ---------- */
+/* ---------- glow text (used sparingly: key values + titles) ---------- */
 .glow {
-  text-shadow:
-    0 0 6px rgba(61, 255, 136, 0.65),
-    0 0 20px rgba(61, 255, 136, 0.3);
+  text-shadow: 0 0 9px rgba(78, 247, 155, 0.5);
 }
 .glow-amber {
-  text-shadow:
-    0 0 6px rgba(255, 176, 0, 0.65),
-    0 0 20px rgba(255, 176, 0, 0.3);
+  text-shadow: 0 0 9px rgba(255, 176, 0, 0.5);
 }
 .glow-red {
-  text-shadow:
-    0 0 6px rgba(255, 71, 71, 0.65),
-    0 0 20px rgba(255, 71, 71, 0.3);
+  text-shadow: 0 0 9px rgba(255, 91, 91, 0.5);
+}
+
+/* ---------- retro corner brackets ---------- */
+.corners::before,
+.corners::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 176, 0, 0.65);
+  pointer-events: none;
+}
+.corners::before {
+  top: -1px;
+  left: -1px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.corners::after {
+  right: -1px;
+  bottom: -1px;
+  border-top: 0;
+  border-left: 0;
 }
 
 /* ---------- animations ---------- */
@@ -138,18 +166,6 @@ body {
   animation: shake 0.45s both;
 }
 
-@keyframes flash-green {
-  0% {
-    opacity: 0.55;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-.flash-green {
-  animation: flash-green 0.6s ease-out both;
-}
-
 @keyframes boot-in {
   0% {
     opacity: 0;
@@ -162,6 +178,59 @@ body {
 }
 .boot-in {
   animation: boot-in 0.35s ease-out both;
+}
+
+/* staggered entrance for cards */
+@keyframes rise {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise {
+  animation: rise 0.5s cubic-bezier(0.22, 0.68, 0.32, 1) both;
+}
+
+/* ---------- victory confetti ---------- */
+@keyframes confetti-fall {
+  0% {
+    transform: translate3d(0, -12vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--drift, 0vw), 112vh, 0) rotate(var(--spin, 720deg));
+    opacity: 1;
+  }
+}
+
+.confetti-piece {
+  position: absolute;
+  top: 0;
+  display: block;
+  animation-name: confetti-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-piece {
+    animation: none;
+    display: none;
+  }
+  .blink,
+  .crt-flicker,
+  .rise,
+  .boot-in {
+    animation: none;
+  }
 }
 
 /* hide default <details> marker (we render our own) */

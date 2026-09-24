@@ -1,113 +1,145 @@
 "use client";
 
 import { useStageGate } from "@/components/useStage";
-import Hash4Lab from "@/components/Hash4Lab";
-import { IntelPanel, PixelButton, TerminalInput } from "@/components/ui";
+import {
+  Callout,
+  Card,
+  IntelPanel,
+  Note,
+  PixelButton,
+  StageHeader,
+  Stat,
+  TerminalInput,
+} from "@/components/ui";
 import { TARGET_KEY1, TARGET_SALT } from "@/lib/puzzle";
 
 export default function Stage2({ onSolved }: { onSolved: () => void }) {
   const gate = useStageGate(TARGET_SALT, onSolved);
 
   return (
-    <section
+    <div
       key={gate.shakeKey}
-      className={`boot-in border-2 border-phos-dim/50 bg-black/50 p-4 sm:p-6 ${
-        gate.state === "err" ? "shake border-danger/70" : ""
-      }`}
+      className={`flex flex-col gap-5 ${gate.state === "err" ? "shake" : ""}`}
     >
-      <p className="font-pixel text-[8px] tracking-widest text-phos-dim">
-        SECURITY STAGE 2 OF 3
-      </p>
-      <h2 className="glow mt-2 font-pixel text-[12px] leading-relaxed text-phos sm:text-sm">
-        THE COSMIC SALT
-      </h2>
+      <StageHeader index={2} title="THE COSMIC SALT" tag="key1 + salt" />
 
-      <div className="mt-3 font-term text-xl leading-snug text-phos/90">
-        <p>
-          <span className="text-phos-dim">// INTEL:</span> Zola&apos;s algorithm
-          doesn&apos;t trust the numerical key alone. It requires a
-          cryptographic <span className="text-amber-crt">salt</span> appended
-          to key1 to form the true secret_key.
-        </p>
-        <p className="mt-2">
-          salt = HASH-4 of a <span className="text-amber-crt">desolate planetary domain</span>{" "}
-          — the world where the leader of the organisation guarding the Space
-          stone was last seen.
-        </p>
-        <p className="mt-2 border border-phos-dim/30 bg-black/40 p-2">
-          <span className="text-phos-dim">FORMULA:</span> secret_key = key1 +
-          salt, concatenated as text.
-          <br />
-          <span className="text-phos-dim">EXAMPLE:</span> 222 + 456 = 222456
-          (not 678!)
-        </p>
-      </div>
-
-      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div className="border border-phos-dim/30 bg-black/40 p-3">
-          <p className="font-pixel text-[8px] text-phos-dim">key1 // RECOVERED</p>
-          <p className="glow mt-1 font-term text-3xl text-phos">{TARGET_KEY1}</p>
-        </div>
-        <div className="border border-amber-crt/40 bg-black/40 p-3">
-          <p className="font-pixel text-[8px] text-amber-crt glow-amber">
-            salt // MISSING
+      {/* ---------- Dossier ---------- */}
+      <Card label="MISSION DOSSIER" title="A SALT ON EVERY KEY">
+        <div className="space-y-4">
+          <p className="max-w-[62ch] font-term text-xl leading-relaxed text-phos/90">
+            Zola&apos;s algorithm does not trust the numerical key alone. It
+            requires a cryptographic{" "}
+            <span className="text-amber-crt">salt</span> appended to the end of
+            key1 to form the true secret_key.
           </p>
-          <p className="mt-1 font-term text-3xl text-phos-dim">????</p>
+          <Callout label="INTELLIGENCE HINT">
+            The salt is the name of the desolate planetary domain where the
+            leader of this referenced organisation was last seen.
+          </Callout>
+          <Note>
+            Apply HASH-4 to that domain — the same three steps as Stage 1 — to
+            produce the salt. Field note from Allied Intelligence: HYDRA&apos;s
+            leader walked through a gate at the edge of a cliff on a barren
+            world, exiled there by the very stones he hunted. A place of stone
+            and sacrifice, where the sky itself is a monument. Name the world,
+            then run HASH-4 on it.
+          </Note>
         </div>
-        <p className="font-term text-lg text-phos-dim sm:col-span-2">
-          HYDRA&apos;s leader walked through a gate at the edge of a cliff on a
-          barren world — sent there by the very stones he hunted. A place of
-          <span className="text-amber-crt"> stone and sacrifice</span>.
-        </p>
+      </Card>
+
+      {/* ---------- Recovered / missing readouts ---------- */}
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Stat label="key1 // RECOVERED" value={TARGET_KEY1} />
+        <Stat label="salt // MISSING" value="????" tone="amber" muted />
       </div>
 
-      <div className="mt-4">
-        <Hash4Lab />
-      </div>
+      {/* ---------- Formula ---------- */}
+      <Card label="THE FORMULA" title="CONCATENATE — DO NOT ADD">
+        <div className="space-y-3.5">
+          <Callout>
+            secret_key = key1 + salt, joined as{" "}
+            <span className="text-amber-crt">characters</span>, producing one
+            longer decimal string.
+          </Callout>
+          <Note>
+            Example from the dossier: 222 + 456 = <span className="text-phos">222456</span>{" "}
+            (not 678!).
+          </Note>
+        </div>
+      </Card>
 
-      <form
-        className="mt-4 border-t border-phos-dim/30 pt-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-          gate.check();
-        }}
+      {/* ---------- Keypad ---------- */}
+      <Card
+        label="ACCESS KEYPAD"
+        className={
+          gate.state === "err"
+            ? "border-danger/70"
+            : gate.state === "ok"
+              ? "border-phos"
+              : ""
+        }
       >
-        <TerminalInput
-          label="ENTER salt (HASH-4 OUTPUT OF THE DOMAIN):"
-          value={gate.value}
-          onChange={gate.setValue}
-          placeholder="###"
-          state={gate.state}
-          inputMode="numeric"
-          maxLength={6}
-        />
-        <div className="mt-3 flex flex-wrap items-center gap-3">
-          <PixelButton type="submit">TRANSMIT ▶</PixelButton>
-          {gate.state === "err" ? (
-            <span className="glow-red font-pixel text-[8px] text-danger">
-              ✗ ACCESS DENIED — ATTEMPTS: {gate.attempts}
-            </span>
-          ) : (
-            <span className="font-term text-base text-phos-dim">
-              The lab above still refuses codenames. Sorry, operative.
-            </span>
-          )}
-        </div>
-      </form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            gate.check();
+          }}
+        >
+          <TerminalInput
+            label="ENTER salt — HASH-4 OUTPUT OF THE DOMAIN"
+            value={gate.value}
+            onChange={gate.setValue}
+            placeholder="###"
+            state={gate.state}
+            inputMode="numeric"
+            maxLength={6}
+          />
+          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+            <PixelButton type="submit">TRANSMIT ▶</PixelButton>
+            {gate.state === "err" ? (
+              <span className="glow-red font-pixel text-[8px] text-danger">
+                [!] ACCESS DENIED — ATTEMPTS: {gate.attempts}
+              </span>
+            ) : gate.state === "ok" ? (
+              <span className="glow font-pixel text-[8px] text-phos">
+                [OK] SALT ACCEPTED — ASSEMBLING secret_key...
+              </span>
+            ) : (
+              <span className="font-term text-lg text-phos-dim">
+                Same three HASH-4 steps as Stage 1. Numbers only.
+              </span>
+            )}
+          </div>
+        </form>
+      </Card>
 
-      <IntelPanel title="📁 CLASSIFIED INTEL — STAGE 2">
+      {/* ---------- Optional depth ---------- */}
+      <IntelPanel title="CLASSIFIED INTEL — SALT PROTOCOL">
         <p>
-          <span className="text-amber-crt">The domain:</span>{" "}
-          <span className="text-phos glow">VORMIR</span> — where the Soul stone
-          demanded a sacrifice, and where Red Skull was exiled to guard it.
+          <span className="text-amber-crt">What a salt is for:</span> a salt is
+          extra text mixed into a key so identical keys never produce identical
+          hashes. Here the mainframe appends the domain&apos;s HASH-4 output to
+          key1 as <span className="glow text-phos">characters</span>, producing
+          one longer decimal string — the secret_key.
         </p>
-        <p className="mt-2">
-          <span className="text-amber-crt">The math:</span> V=22 O=15 R=18
-          M=13 I=9 R=18 → sum 95 × 6 letters ={" "}
-          <span className="text-phos glow">570</span>. Concatenated:{" "}
-          <span className="text-amber-crt">secret_key = 220570</span>.
+        <p>
+          <span className="text-amber-crt">
+            Worked concatenation example (unrelated numbers):
+          </span>{" "}
+          111 + 222 → &quot;111222&quot;, not 333. The same rule applies to your
+          key1 and salt.
         </p>
+        <p>
+          <span className="text-amber-crt">Where to look:</span> the hint points
+          at an organisation and its leader, not at the stone. Follow the leader —
+          the organisation&apos;s symbol, the man who wore the red skull, and the
+          world he was banished to.
+        </p>
+        <Callout tone="danger" label="NO TERMINAL DIAGNOSTICS">
+          No solution data is stored on this page. Derive the domain yourself,
+          then HASH-4 it by hand.
+        </Callout>
       </IntelPanel>
-    </section>
+    </div>
   );
 }
