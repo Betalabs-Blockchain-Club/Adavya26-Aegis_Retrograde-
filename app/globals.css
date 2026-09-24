@@ -4,29 +4,40 @@
   --font-pixel: var(--font-press-start), "Courier New", monospace;
   --font-term: var(--font-vt323), "Courier New", monospace;
 
-  --color-screen: #05080b;
-  --color-phos: #4ef79b;
-  --color-phos-dim: #2f9e64;
-  --color-phos-faint: #14543a;
+  --color-screen: #04070c;
+
+  /* body copy — soft ice-blue */
+  --color-ink: #c9e8ff;
+
+  /* primary accent — CRT cyan-blue */
+  --color-blue: #5bc8ff;
+  --color-blue-dim: #4d87ad;
+  --color-blue-faint: #173a52;
+
+  /* secondary accents */
   --color-amber-crt: #ffb000;
   --color-danger: #ff5b5b;
+
+  /* success green — used sparingly */
+  --color-ok: #4ef79b;
+  --color-ok-dim: #2f9e64;
 }
 
 html {
-  scrollbar-color: #14543a #05080b;
+  scrollbar-color: #173a52 #04070c;
 }
 
 body {
   min-height: 100vh;
-  color: var(--color-phos);
+  color: var(--color-ink);
   background:
-    radial-gradient(90% 60% at 50% -10%, rgba(78, 247, 155, 0.07) 0%, rgba(5, 8, 11, 0) 65%),
-    radial-gradient(ellipse at 50% 0%, #08150e 0%, #05080b 62%, #000000 100%);
+    radial-gradient(90% 60% at 50% -10%, rgba(91, 200, 255, 0.08) 0%, rgba(4, 7, 12, 0) 65%),
+    radial-gradient(ellipse at 50% 0%, #0a1524 0%, #04070c 62%, #000000 100%);
   background-attachment: fixed;
 }
 
 ::selection {
-  background: rgba(78, 247, 155, 0.25);
+  background: rgba(91, 200, 255, 0.28);
 }
 
 /* ---------- fixed background texture ---------- */
@@ -36,8 +47,8 @@ body {
   z-index: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(78, 247, 155, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(78, 247, 155, 0.035) 1px, transparent 1px);
+    linear-gradient(rgba(91, 200, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(91, 200, 255, 0.045) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: radial-gradient(130% 90% at 50% 0%, #000 0%, transparent 80%);
 }
@@ -62,7 +73,7 @@ body {
   inset: 0;
   z-index: 61;
   pointer-events: none;
-  background: rgba(78, 247, 155, 0.02);
+  background: rgba(91, 200, 255, 0.02);
   animation: crt-flicker 7s infinite steps(1);
 }
 
@@ -96,13 +107,55 @@ body {
 
 /* ---------- glow text (used sparingly: key values + titles) ---------- */
 .glow {
-  text-shadow: 0 0 9px rgba(78, 247, 155, 0.5);
+  text-shadow: 0 0 10px rgba(91, 200, 255, 0.55);
+}
+.glow-blue {
+  text-shadow: 0 0 10px rgba(91, 200, 255, 0.55);
 }
 .glow-amber {
-  text-shadow: 0 0 9px rgba(255, 176, 0, 0.5);
+  text-shadow: 0 0 10px rgba(255, 176, 0, 0.5);
 }
 .glow-red {
-  text-shadow: 0 0 9px rgba(255, 91, 91, 0.5);
+  text-shadow: 0 0 10px rgba(255, 91, 91, 0.5);
+}
+.glow-ok {
+  text-shadow: 0 0 10px rgba(78, 247, 155, 0.5);
+}
+
+/* ---------- blurred / redacted text (hover to declassify) ---------- */
+.blur-text {
+  filter: blur(3.5px);
+  transition: filter 0.4s ease;
+  cursor: help;
+}
+.blur-text:hover,
+.blur-text:focus-visible {
+  filter: none;
+}
+
+/* ---------- archive photograph plates ---------- */
+.intel-img {
+  position: relative;
+  overflow: hidden;
+}
+.intel-img img {
+  display: block;
+  width: 100%;
+  filter: saturate(0.8) contrast(1.06) brightness(0.9);
+}
+.intel-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.22) 3px,
+    rgba(0, 0, 0, 0.22) 4px
+  );
+  box-shadow: inset 0 0 42px rgba(0, 0, 0, 0.55);
 }
 
 /* ---------- retro corner brackets ---------- */
@@ -112,7 +165,7 @@ body {
   position: absolute;
   width: 12px;
   height: 12px;
-  border: 2px solid rgba(255, 176, 0, 0.65);
+  border: 2px solid rgba(91, 200, 255, 0.65);
   pointer-events: none;
 }
 .corners::before {

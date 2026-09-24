@@ -106,13 +106,13 @@ export function sha256(message: string): string {
   return hex;
 }
 
-/* ---------------- Puzzle targets ---------------- */
+/* ---------------- Puzzle constants (public, non-secret) ---------------- */
 
-export const TARGET_KEY1 = "220"; // HASH-4("Space")  = (19+16+1+3+5) * 5
-export const TARGET_SALT = "570"; // HASH-4("Vormir") = (22+15+18+13+9+18) * 6
-export const SECRET_KEY = "220570"; // key1 + salt, concatenated as text
-export const TARGET_FINAL_KEY =
-  "8107948c4dbf3a6b941eca08f4ec334ec6c94549bd228dc0018c9c9eef2893d5"; // SHA-256("220570" + "6")
+/*
+ * NOTE: the actual answers live only in server-side env vars and are never
+ * shipped to the browser. This module is imported by client components, so
+ * anything exported here ends up in the page bundle — keep it answer-free.
+ */
 
 export const STONES = [
   "Space",
@@ -123,7 +123,7 @@ export const STONES = [
   "Soul",
 ] as const;
 
-/** Case/space-insensitive compare used by every stage input. */
+/** Case/space-insensitive compare used by server-side answer checks. */
 export function norm(s: string): string {
   return s.trim().toLowerCase();
 }

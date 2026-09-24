@@ -67,13 +67,13 @@ export default function GameConsole() {
   return (
     <div className="flex flex-col gap-6">
       {/* ---------- HUD ---------- */}
-      <header className="border border-phos-faint bg-black/45 px-4 py-3.5 sm:px-5">
+      <header className="border border-blue-faint bg-black/45 px-4 py-3.5 sm:px-5">
         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-          <p className="flex items-center gap-2.5 font-pixel text-[9px] tracking-[0.22em] text-phos glow">
-            <span className="inline-block h-2 w-2 bg-phos blink" />
-            AEGIS<span className="text-phos-dim">//</span>RETROGRADE
+          <p className="flex items-center gap-2.5 font-pixel text-[9px] tracking-[0.22em] text-blue glow">
+            <span className="inline-block h-2 w-2 bg-blue blink" />
+            AEGIS<span className="text-blue-dim">//</span>RETROGRADE
           </p>
-          <p className="font-term text-lg text-phos-dim">
+          <p className="font-term text-lg text-blue-dim">
             {phase === "briefing"
               ? "AWAITING OPERATIVE CHECK-IN"
               : phase === "victory"
@@ -97,15 +97,15 @@ export default function GameConsole() {
                 key={s}
                 className={`h-1 flex-1 ${
                   level > PHASE_ORDER.indexOf(`stage${s}` as Phase)
-                    ? "bg-phos shadow-[0_0_8px_rgba(78,247,155,0.5)]"
+                    ? "bg-ok shadow-[0_0_8px_rgba(78,247,155,0.5)]"
                     : phase === `stage${s}`
                       ? "bg-amber-crt/70"
-                      : "bg-phos-faint"
+                      : "bg-blue-faint"
                 }`}
               />
             ))}
           </div>
-          <p className="font-pixel text-[7px] tracking-[0.2em] text-phos-dim">
+          <p className="font-pixel text-[7px] tracking-[0.2em] text-blue-dim">
             {stagesCleared}/3
           </p>
         </div>

@@ -3,13 +3,14 @@
 import { useEffect, useState } from "react";
 
 const COLORS = [
-  "#3dff88",
+  "#5bc8ff",
   "#ffb000",
   "#ff4747",
   "#4fd1ff",
   "#ff7ae0",
   "#f6ff5a",
   "#9d7bff",
+  "#3dff88",
 ];
 
 type Piece = {

@@ -16,7 +16,7 @@ const LINES: { text: string; tone?: Tone }[] = [
   { text: "MISSION BRIEFING", tone: "head" },
   { text: "" },
   {
-    text: "You are a deep-cover operative who has successfully breached HYDRA Black Site Echo. The alarms are blaring. In the center of the subterranean launch pad sits a primed Surface-to-Surface Guided Bomb Unit (GBU), currently targeted at a major civilian population center.",
+    text: "You are a deep-cover operative who has successfully breached HYDRA Black Site ECHO. The alarms are blaring. In the center of the subterranean launch pad sits a primed Surface-to-Surface Guided Bomb Unit (GBU), currently targeted at a major civilian population center.",
   },
   { text: "" },
   {
@@ -24,7 +24,7 @@ const LINES: { text: string; tone?: Tone }[] = [
   },
   { text: "" },
   {
-    text: "Allied Intelligence intercepted the terminal's cryptographic lock. To authorize the retargeting sequence, you must defeat Arnim Zola's legacy encryption system by generating a valid FINAL LAUNCH KEY. The terminal requires you to clear THREE distinct security stages.",
+    text: "Allied Intelligence intercepted the terminal's cryptographic lock. To authorize the retargeting sequence, you must defeat legacy encryption system by generating a valid FINAL LAUNCH KEY. The terminal requires you to clear THREE distinct security stages.",
     tone: "warn",
   },
 ];
@@ -50,29 +50,29 @@ export default function Briefing({ onStart }: { onStart: () => void }) {
   return (
     <div className="flex flex-col gap-5">
       {/* ---------- Order header ---------- */}
-      <section className="rise corners relative border border-phos-faint bg-black/50 px-5 py-7 sm:px-8 sm:py-9">
-        <p className="font-pixel text-[7px] tracking-[0.3em] text-phos-dim">
-          ADAVYA PROBLEM DRAFT — BY MANAS
+      <section className="rise corners relative border border-blue-faint bg-black/50 px-5 py-7 sm:px-8 sm:py-9">
+        <p className="font-pixel text-[7px] tracking-[0.3em] text-blue-dim">
+          ADVAYA PROBLEM DRAFT — BY MANAS
         </p>
-        <h1 className="glow-amber mt-4 font-pixel text-[15px] leading-[1.9] text-amber-crt sm:text-xl">
+        <h1 className="glow mt-4 font-pixel text-[15px] leading-[1.9] text-blue sm:text-xl">
           OPERATION AEGIS
           <br />
           RETROGRADE
         </h1>
 
-        <div className="mt-7 space-y-1.5 border-y border-phos-faint/60 py-4 font-term text-base text-phos-dim sm:text-lg">
+        <div className="mt-7 space-y-1.5 border-y border-blue-faint/60 py-4 font-term text-base text-blue-dim sm:text-lg">
           {BOOT_LINES.map((l) => (
             <p key={l}>{l}</p>
           ))}
         </div>
 
-        <div className="mt-7 max-w-[62ch] font-term text-xl leading-relaxed text-phos/90">
+        <div className="mt-7 max-w-[62ch] font-term text-xl leading-relaxed text-ink/90">
           {LINES.slice(0, shown).map((line, i) => (
             <p
               key={i}
               className={
                 line.tone === "head"
-                  ? "font-pixel text-[10px] tracking-[0.2em] text-amber-crt"
+                  ? "font-pixel text-[10px] tracking-[0.2em] text-blue"
                   : line.tone === "warn"
                     ? "mt-1 text-amber-crt/90"
                     : ""
@@ -87,19 +87,19 @@ export default function Briefing({ onStart }: { onStart: () => void }) {
 
       {/* ---------- Stage index (revealed once the briefing finishes) ---------- */}
       {done && (
-        <section className="boot-in border border-phos-faint bg-black/45">
+        <section className="boot-in border border-blue-faint bg-black/45">
           {STAGE_INDEX.map((s) => (
             <div
               key={s.n}
-              className="flex items-center gap-3.5 border-b border-phos-faint/60 px-4 py-3.5 last:border-b-0 sm:px-5"
+              className="flex items-center gap-3.5 border-b border-blue-faint/60 px-4 py-3.5 last:border-b-0 sm:px-5"
             >
               <span className="grid h-7 w-7 shrink-0 place-items-center border border-amber-crt/50 font-pixel text-[8px] text-amber-crt">
                 {s.n}
               </span>
-              <p className="flex-1 font-pixel text-[8px] leading-relaxed tracking-wide text-phos sm:text-[9px]">
+              <p className="flex-1 font-pixel text-[8px] leading-relaxed tracking-wide text-blue sm:text-[9px]">
                 {s.name}
               </p>
-              <p className="hidden font-term text-base text-phos-dim sm:block">
+              <p className="hidden font-term text-base text-blue-dim sm:block">
                 {s.tag}
               </p>
             </div>
@@ -111,7 +111,7 @@ export default function Briefing({ onStart }: { onStart: () => void }) {
         <PixelButton variant="amber" onClick={onStart}>
           {done ? "▶ START MISSION" : "SKIP BRIEFING ▶▶"}
         </PixelButton>
-        <span className="font-term text-lg text-phos-dim">
+        <span className="font-term text-lg text-blue-dim">
           {done
             ? "Three stages. One launch key. No pressure, operative."
             : "(press to skip)"}
