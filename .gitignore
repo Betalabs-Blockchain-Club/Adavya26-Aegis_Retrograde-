@@ -24,6 +24,12 @@ yarn-error.log*
 # vercel
 .vercel
 
+# freebuff local state
+.freebuff/
+
+# local-only assets (untracked on purpose)
+public/intel/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
