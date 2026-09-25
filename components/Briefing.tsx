@@ -52,7 +52,7 @@ export default function Briefing({ onStart }: { onStart: () => void }) {
       {/* ---------- Order header ---------- */}
       <section className="rise corners relative border border-blue-faint bg-black/50 px-5 py-7 sm:px-8 sm:py-9">
         <p className="font-pixel text-[7px] tracking-[0.3em] text-blue-dim">
-          ADVAYA PROBLEM DRAFT — BY MANAS
+          ADVAYA Round 7
         </p>
         <h1 className="glow mt-4 font-pixel text-[15px] leading-[1.9] text-blue sm:text-xl">
           OPERATION AEGIS

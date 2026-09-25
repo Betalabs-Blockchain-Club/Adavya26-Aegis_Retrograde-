@@ -115,12 +115,13 @@ export function sha256(message: string): string {
  */
 
 export const STONES = [
-  "Space",
+  
   "Mind",
   "Reality",
   "Power",
   "Time",
   "Soul",
+  "Space"
 ] as const;
 
 /** Case/space-insensitive compare used by server-side answer checks. */
